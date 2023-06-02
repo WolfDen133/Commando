@@ -100,7 +100,7 @@ abstract class BaseCommand extends Command implements IArgumentable, IRunnable, 
 		return $this->plugin;
 	}
 
-	final public function execute(CommandSender $sender, string $commandLabel, array $args){
+	final public function execute(CommandSender $sender, string $commandLabel, array $args): void{
 		$this->currentSender = $sender;
 		if(!$this->testPermission($sender)){
 			return;
@@ -122,7 +122,7 @@ abstract class BaseCommand extends Command implements IArgumentable, IRunnable, 
 							)
 						);
 					} elseif(empty($msg)) {
-						$sender->sendMessage(str_replace("<permission>", $cmd->getPermissions(), $msg));
+						$sender->sendMessage(str_replace("<permission>", $cmd->getPermissions()[0], $msg));
 					}
 
 					return;

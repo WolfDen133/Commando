@@ -50,6 +50,9 @@ interface IRunnable {
 
     public function getUsageMessage():string;
 
+    /**
+     * @return string[]
+     */
     public function getPermissions(): array; // f*ck. PM didn't declare a return type... reeee
 
     /**
