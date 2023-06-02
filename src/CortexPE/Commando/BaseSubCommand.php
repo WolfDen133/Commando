@@ -47,8 +47,8 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 	private string $description;
 	/** @var string */
 	protected string $usageMessage;
-	/** @var string|null */
-	private ?string $permission = null;
+	/** @var array */
+	private array $permission = [];
 	/** @var CommandSender */
 	protected CommandSender $currentSender;
 	/** @var BaseCommand */
@@ -97,9 +97,9 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 	}
 
 	/**
-	 * @return string|null
+	 * @return array
 	 */
-	public function getPermission(): ?string {
+	public function getPermissions(): array{
 		return $this->permission;
 	}
 
@@ -110,16 +110,13 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 		$this->permission = $permission;
 	}
 
-	public function testPermissionSilent(CommandSender $sender): bool {
-		if(empty($this->permission)) {
-			return true;
-		}
-		foreach(explode(";", $this->permission) as $permission) {
-			if($sender->hasPermission($permission)) {
+	public function testPermissionSilent(CommandSender $sender, ?string $permission = null): bool {
+		$list = $permission !== null ? [$permission] : $this->permission;
+		foreach($list as $p){
+			if($sender->hasPermission($p)){
 				return true;
 			}
 		}
-
 		return false;
 	}
 
